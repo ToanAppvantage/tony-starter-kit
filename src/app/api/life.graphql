@@ -1,0 +1,45 @@
+fragment LifeData on Life {
+    _id,
+    firstName
+    lastName
+    birthday
+    description
+    hobbies
+}
+
+query getListLives {
+    lives: listLives {
+        ...LifeData
+    }
+}
+
+query getLife($id: String!){
+  life: getLife(id: $id) {
+    _id
+    birthday
+    description
+    firstName
+    hobbies
+    lastName
+  }
+}
+
+
+mutation createLife(
+    $title: String!, $firstname: String!, $lastname: String!, $description: String!, $birthday: String!, $hobbies: [String!]
+) {
+    createLife(
+        title: $title,
+        firstname: $firstname,
+        lastname: $lastname
+        description: $description,
+        birthday: $birthday,
+        hobbies: $hobbies,
+    ) {
+        firstName
+        lastName
+        birthday
+        description
+        hobbies
+    }
+}
