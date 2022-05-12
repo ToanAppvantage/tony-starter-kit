@@ -1,0 +1,16 @@
+type Life {
+    """
+    Firstname
+    """
+    firstname: String!
+
+    """
+    Lastname
+    """
+    lastname: String!
+
+    """
+    Birthday
+    """
+    birthday: String!
+}
