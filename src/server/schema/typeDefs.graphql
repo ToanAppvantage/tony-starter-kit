@@ -71,6 +71,33 @@ union ExternalLink = ResetPasswordLink
 
 scalar JSONObject
 
+type Life {
+    """
+    ID of user
+    """
+    _id: ID!
+    """
+    Birthday
+    """
+    birthday: String!
+    """
+    Description
+    """
+    description: String!
+    """
+    Firstname
+    """
+    firstName: String!
+    """
+    Hobbies
+    """
+    hobbies: [String]!
+    """
+    Lastname
+    """
+    lastName: String!
+}
+
 type MessageNotice {
     date: DateTime!
     message: String!
@@ -109,6 +136,17 @@ type Mutation {
     Create a new account/user
     """
     createAccount(email: String!, password: String!, username: String!): User!
+    """
+    Create a new life
+    """
+    createLife(
+        birthday: String!
+        description: String!
+        firstname: String!
+        hobbies: [String!]
+        lastname: String!
+        title: String!
+    ): Life!
     """
     Disable 2FA / Authenticator for the signed user
     """
@@ -187,9 +225,17 @@ type Query {
     """
     generateAuthenticatorSetup: AuthenticatorSetup!
     """
+    Retrieve a life information
+    """
+    getLife(id: String!): Life!
+    """
     Fetch WebAuthn security keys for a username
     """
     getWebauthnKeys(username: String!): [String!]!
+    """
+    List lives
+    """
+    listLives: [Life]!
     """
     List users
     """

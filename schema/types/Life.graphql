@@ -1,16 +1,31 @@
 type Life {
     """
+    ID of user
+    """
+    _id: ID!
+
+    """
     Firstname
     """
-    firstname: String!
+    firstName: String!
 
     """
     Lastname
     """
-    lastname: String!
+    lastName: String!
 
     """
     Birthday
     """
     birthday: String!
+
+    """
+    Description
+    """
+    description: String!
+
+    """
+    Hobbies
+    """
+    hobbies: [String]!
 }
