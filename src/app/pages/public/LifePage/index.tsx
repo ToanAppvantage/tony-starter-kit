@@ -57,7 +57,7 @@ const LifePage = () => {
             </>
             <Table
                 dataSource={lives}
-                rowKey={({ firstName, lastName }) => `${firstName}_${lastName}`}
+                rowKey="_id"
                 loading={loading}
                 columns={columns}
             />
