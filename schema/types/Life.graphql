@@ -1,0 +1,45 @@
+type Life {
+    """
+    ID of user
+    """
+    id: ObjectID!
+
+    """
+    Firstname
+    """
+    firstName: String!
+
+    """
+    Lastname
+    """
+    lastName: String!
+
+    """
+    Fullname
+    """
+    fullName: String!
+
+    """
+    Birthday
+    """
+    birthday: String!
+
+    """
+    Description
+    """
+    description: String!
+
+    """
+    Hobbies
+    """
+    hobbies: [String!]!
+}
+
+input LifeRequest {
+    title: String!
+    firstname: String!
+    lastname: String!
+    description: String!
+    birthday: DateTime!
+    hobbies: [String!]!
+}

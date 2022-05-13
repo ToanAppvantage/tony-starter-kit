@@ -1,0 +1,27 @@
+fragment LifeData on Life {
+    id
+    firstName
+    lastName
+    birthday
+    description
+    hobbies
+    fullName
+}
+
+query getListLives {
+    lives: listLives {
+        ...LifeData
+    }
+}
+
+query getLife($id: ObjectID!) {
+    life: getLife(id: $id) {
+        ...LifeData
+    }
+}
+
+mutation createLife($life: LifeRequest!) {
+    createLife(life: $life) {
+        ...LifeData
+    }
+}

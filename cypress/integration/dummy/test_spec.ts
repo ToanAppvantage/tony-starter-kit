@@ -1,6 +1,6 @@
-describe('My First Test', () => {
-    it('Does not do much!', () => {
-        cy.visit('/');
-        cy.get('main.ant-layout-content').should('contain', 'Welcome');
+describe('LifePage', () => {
+    it('lives loads success', () => {
+        cy.visit('/life');
+        cy.get('main.ant-table').contains('table');
     });
 });
