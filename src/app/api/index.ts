@@ -72,18 +72,29 @@ export type ExternalLink = ResetPasswordLink;
 
 export type Life = {
     __typename?: 'Life';
-    /** ID of user */
-    _id: Scalars['ID'];
     /** Birthday */
     birthday: Scalars['String'];
     /** Description */
     description: Scalars['String'];
     /** Firstname */
     firstName: Scalars['String'];
+    /** Fullname */
+    fullName: Scalars['String'];
     /** Hobbies */
-    hobbies: Array<Maybe<Scalars['String']>>;
+    hobbies: Array<Scalars['String']>;
+    /** ID of user */
+    id: Scalars['ObjectID'];
     /** Lastname */
     lastName: Scalars['String'];
+};
+
+export type LifeRequest = {
+    birthday: Scalars['DateTime'];
+    description: Scalars['String'];
+    firstname: Scalars['String'];
+    hobbies: Array<Scalars['String']>;
+    lastname: Scalars['String'];
+    title: Scalars['String'];
 };
 
 export type MessageNotice = {
@@ -183,12 +194,7 @@ export type MutationCreateAccountArgs = {
 };
 
 export type MutationCreateLifeArgs = {
-    birthday: Scalars['String'];
-    description: Scalars['String'];
-    firstname: Scalars['String'];
-    hobbies?: InputMaybe<Array<Scalars['String']>>;
-    lastname: Scalars['String'];
-    title: Scalars['String'];
+    life: LifeRequest;
 };
 
 export type MutationEnableAuthenticatorArgs = {
@@ -237,11 +243,11 @@ export type Query = {
     /** Generate authenticator secret and qrcode */
     generateAuthenticatorSetup: AuthenticatorSetup;
     /** Retrieve a life information */
-    getLife: Life;
+    getLife?: Maybe<Life>;
     /** Fetch WebAuthn security keys for a username */
     getWebauthnKeys: Array<Scalars['String']>;
     /** List lives */
-    listLives: Array<Maybe<Life>>;
+    listLives: Array<Life>;
     /** List users */
     listUsers: PaginatedUsers;
     /** Retrieve a link information */
@@ -253,7 +259,7 @@ export type QueryGenerateAuthenticatorChallengeArgs = {
 };
 
 export type QueryGetLifeArgs = {
-    id: Scalars['String'];
+    id: Scalars['ObjectID'];
 };
 
 export type QueryGetWebauthnKeysArgs = {
@@ -386,12 +392,13 @@ export type RetrieveLinkQuery = {
 
 export type LifeDataFragment = {
     __typename?: 'Life';
-    _id: string;
+    id: string;
     firstName: string;
     lastName: string;
     birthday: string;
     description: string;
-    hobbies: Array<string | null>;
+    hobbies: Array<string>;
+    fullName: string;
 };
 
 export type GetListLivesQueryVariables = Exact<{ [key: string]: never }>;
@@ -400,50 +407,49 @@ export type GetListLivesQuery = {
     __typename?: 'Query';
     lives: Array<{
         __typename?: 'Life';
-        _id: string;
+        id: string;
         firstName: string;
         lastName: string;
         birthday: string;
         description: string;
-        hobbies: Array<string | null>;
-    } | null>;
+        hobbies: Array<string>;
+        fullName: string;
+    }>;
 };
 
 export type GetLifeQueryVariables = Exact<{
-    id: Scalars['String'];
+    id: Scalars['ObjectID'];
 }>;
 
 export type GetLifeQuery = {
     __typename?: 'Query';
-    life: {
+    life?: {
         __typename?: 'Life';
-        _id: string;
+        id: string;
+        firstName: string;
+        lastName: string;
         birthday: string;
         description: string;
-        firstName: string;
-        hobbies: Array<string | null>;
-        lastName: string;
-    };
+        hobbies: Array<string>;
+        fullName: string;
+    } | null;
 };
 
 export type CreateLifeMutationVariables = Exact<{
-    title: Scalars['String'];
-    firstname: Scalars['String'];
-    lastname: Scalars['String'];
-    description: Scalars['String'];
-    birthday: Scalars['String'];
-    hobbies?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+    life: LifeRequest;
 }>;
 
 export type CreateLifeMutation = {
     __typename?: 'Mutation';
     createLife: {
         __typename?: 'Life';
+        id: string;
         firstName: string;
         lastName: string;
         birthday: string;
         description: string;
-        hobbies: Array<string | null>;
+        hobbies: Array<string>;
+        fullName: string;
     };
 };
 
@@ -796,12 +802,13 @@ export const LifeDataFragmentDoc = /* #__PURE__ */ {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fullName' } },
                 ],
             },
         },
@@ -1037,12 +1044,13 @@ export const GetListLivesDocument = /* #__PURE__ */ {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: '_id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fullName' } },
                 ],
             },
         },
@@ -1092,7 +1100,10 @@ export const GetLifeDocument = /* #__PURE__ */ {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'ObjectID' } },
+                    },
                 },
             ],
             selectionSet: {
@@ -1111,16 +1122,26 @@ export const GetLifeDocument = /* #__PURE__ */ {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: '_id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'LifeData' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LifeData' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Life' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fullName' } },
                 ],
             },
         },
@@ -1166,38 +1187,10 @@ export const CreateLifeDocument = /* #__PURE__ */ {
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'birthday' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'hobbies' } },
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'life' } },
                     type: {
-                        kind: 'ListType',
-                        type: {
-                            kind: 'NonNullType',
-                            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                        },
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LifeRequest' } },
                     },
                 },
             ],
@@ -1210,46 +1203,32 @@ export const CreateLifeDocument = /* #__PURE__ */ {
                         arguments: [
                             {
                                 kind: 'Argument',
-                                name: { kind: 'Name', value: 'title' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'firstname' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'firstname' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'lastname' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'lastname' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'description' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'birthday' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'birthday' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'hobbies' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'hobbies' } },
+                                name: { kind: 'Name', value: 'life' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'life' } },
                             },
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'LifeData' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LifeData' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Life' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'birthday' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hobbies' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fullName' } },
                 ],
             },
         },
@@ -1270,12 +1249,7 @@ export type CreateLifeMutationFn = Apollo.MutationFunction<CreateLifeMutation, C
  * @example
  * const [createLifeMutation, { data, loading, error }] = useCreateLifeMutation({
  *   variables: {
- *      title: // value for 'title'
- *      firstname: // value for 'firstname'
- *      lastname: // value for 'lastname'
- *      description: // value for 'description'
- *      birthday: // value for 'birthday'
- *      hobbies: // value for 'hobbies'
+ *      life: // value for 'life'
  *   },
  * });
  */

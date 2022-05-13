@@ -8,8 +8,7 @@ const query: GraphQLQueryResolvers['getLife'] = async (
 ) => {
     const { collections } = await getDatabaseContext();
 
-    const result = await collections.lives.findOne({ _id: new ObjectId(id) });
-    return result;
+    return collections.lives.findOne({ _id: id });
 };
 
 export default query;

@@ -1,10 +1,11 @@
 fragment LifeData on Life {
-    _id,
+    id
     firstName
     lastName
     birthday
     description
     hobbies
+    fullName
 }
 
 query getListLives {
@@ -13,33 +14,14 @@ query getListLives {
     }
 }
 
-query getLife($id: String!){
-  life: getLife(id: $id) {
-    _id
-    birthday
-    description
-    firstName
-    hobbies
-    lastName
-  }
+query getLife($id: ObjectID!) {
+    life: getLife(id: $id) {
+        ...LifeData
+    }
 }
 
-
-mutation createLife(
-    $title: String!, $firstname: String!, $lastname: String!, $description: String!, $birthday: String!, $hobbies: [String!]
-) {
-    createLife(
-        title: $title,
-        firstname: $firstname,
-        lastname: $lastname
-        description: $description,
-        birthday: $birthday,
-        hobbies: $hobbies,
-    ) {
-        firstName
-        lastName
-        birthday
-        description
-        hobbies
+mutation createLife($life: LifeRequest!) {
+    createLife(life: $life) {
+        ...LifeData
     }
 }

@@ -2,7 +2,7 @@ type Life {
     """
     ID of user
     """
-    _id: ID!
+    id: ObjectID!
 
     """
     Firstname
@@ -13,6 +13,11 @@ type Life {
     Lastname
     """
     lastName: String!
+
+    """
+    Fullname
+    """
+    fullName: String!
 
     """
     Birthday
@@ -27,5 +32,14 @@ type Life {
     """
     Hobbies
     """
-    hobbies: [String]!
+    hobbies: [String!]!
+}
+
+input LifeRequest {
+    title: String!
+    firstname: String!
+    lastname: String!
+    description: String!
+    birthday: DateTime!
+    hobbies: [String!]!
 }

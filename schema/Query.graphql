@@ -32,10 +32,10 @@ type Query {
     """
     Retrieve a life information
     """
-    getLife(id: String!): Life!
+    getLife(id: ObjectID!): Life
 
     """
     List lives
     """
-    listLives: [Life]!
+    listLives: [Life!]!
 }

@@ -88,5 +88,5 @@ type Mutation {
     """
     Create a new life
     """
-    createLife(title: String!, firstname: String!, lastname: String!, description: String!, birthday: String!, hobbies: [String!]): Life!
+    createLife(life: LifeRequest!): Life!
 }

@@ -73,10 +73,6 @@ scalar JSONObject
 
 type Life {
     """
-    ID of user
-    """
-    _id: ID!
-    """
     Birthday
     """
     birthday: String!
@@ -89,13 +85,30 @@ type Life {
     """
     firstName: String!
     """
+    Fullname
+    """
+    fullName: String!
+    """
     Hobbies
     """
-    hobbies: [String]!
+    hobbies: [String!]!
+    """
+    ID of user
+    """
+    id: ObjectID!
     """
     Lastname
     """
     lastName: String!
+}
+
+input LifeRequest {
+    birthday: DateTime!
+    description: String!
+    firstname: String!
+    hobbies: [String!]!
+    lastname: String!
+    title: String!
 }
 
 type MessageNotice {
@@ -139,14 +152,7 @@ type Mutation {
     """
     Create a new life
     """
-    createLife(
-        birthday: String!
-        description: String!
-        firstname: String!
-        hobbies: [String!]
-        lastname: String!
-        title: String!
-    ): Life!
+    createLife(life: LifeRequest!): Life!
     """
     Disable 2FA / Authenticator for the signed user
     """
@@ -227,7 +233,7 @@ type Query {
     """
     Retrieve a life information
     """
-    getLife(id: String!): Life!
+    getLife(id: ObjectID!): Life
     """
     Fetch WebAuthn security keys for a username
     """
@@ -235,7 +241,7 @@ type Query {
     """
     List lives
     """
-    listLives: [Life]!
+    listLives: [Life!]!
     """
     List users
     """

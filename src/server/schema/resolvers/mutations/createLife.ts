@@ -4,11 +4,12 @@ import { GraphQLMutationResolvers } from '../definitions';
 
 const mutation: GraphQLMutationResolvers['createLife'] = async (
     root,
-    { title, firstname, lastname, description, birthday, hobbies },
+    { life },
     { getTranslations }
 ) => {
     const { collections } = await getDatabaseContext();
 
+    const { title, firstname, lastname, description, birthday, hobbies } = life;
 
     const newID = new ObjectId();
 
@@ -17,7 +18,7 @@ const mutation: GraphQLMutationResolvers['createLife'] = async (
         title,
         firstName: firstname,
         lastName: lastname,
-        birthday: new Date(birthday * 1),
+        birthday: birthday,
         description,
         hobbies
         

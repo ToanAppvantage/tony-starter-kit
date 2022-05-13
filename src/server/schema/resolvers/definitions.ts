@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { ObjectId } from 'mongodb';
-import { User, UserSession, ExternalLink, ResetPasswordLink } from '../../database';
+import { User, Life, UserSession, ExternalLink, ResetPasswordLink } from '../../database';
 import { SystemMessage } from '../../utils/systemMessage';
 import { FileUploadPromise, Context, RootDocument } from '../context';
 import { UserSortingField, SortingOrder } from './enums';
@@ -73,18 +73,29 @@ export type GraphQLAuthenticatorSetup = {
 export type GraphQLExternalLink = GraphQLResetPasswordLink;
 
 export type GraphQLLife = {
-    /** ID of user */
-    _id: Scalars['ID'];
     /** Birthday */
     birthday: Scalars['String'];
     /** Description */
     description: Scalars['String'];
     /** Firstname */
     firstName: Scalars['String'];
+    /** Fullname */
+    fullName: Scalars['String'];
     /** Hobbies */
-    hobbies: Array<Maybe<Scalars['String']>>;
+    hobbies: Array<Scalars['String']>;
+    /** ID of user */
+    id: Scalars['ObjectID'];
     /** Lastname */
     lastName: Scalars['String'];
+};
+
+export type GraphQLLifeRequest = {
+    birthday: Scalars['DateTime'];
+    description: Scalars['String'];
+    firstname: Scalars['String'];
+    hobbies: Array<Scalars['String']>;
+    lastname: Scalars['String'];
+    title: Scalars['String'];
 };
 
 export type GraphQLMessageNotice = {
@@ -182,12 +193,7 @@ export type GraphQLMutationCreateAccountArgs = {
 };
 
 export type GraphQLMutationCreateLifeArgs = {
-    birthday: Scalars['String'];
-    description: Scalars['String'];
-    firstname: Scalars['String'];
-    hobbies?: InputMaybe<Array<Scalars['String']>>;
-    lastname: Scalars['String'];
-    title: Scalars['String'];
+    life: GraphQLLifeRequest;
 };
 
 export type GraphQLMutationEnableAuthenticatorArgs = {
@@ -234,11 +240,11 @@ export type GraphQLQuery = {
     /** Generate authenticator secret and qrcode */
     generateAuthenticatorSetup: GraphQLAuthenticatorSetup;
     /** Retrieve a life information */
-    getLife: GraphQLLife;
+    getLife?: Maybe<GraphQLLife>;
     /** Fetch WebAuthn security keys for a username */
     getWebauthnKeys: Array<Scalars['String']>;
     /** List lives */
-    listLives: Array<Maybe<GraphQLLife>>;
+    listLives: Array<GraphQLLife>;
     /** List users */
     listUsers: GraphQLPaginatedUsers;
     /** Retrieve a link information */
@@ -250,7 +256,7 @@ export type GraphQLQueryGenerateAuthenticatorChallengeArgs = {
 };
 
 export type GraphQLQueryGetLifeArgs = {
-    id: Scalars['String'];
+    id: Scalars['ObjectID'];
 };
 
 export type GraphQLQueryGetWebauthnKeysArgs = {
@@ -440,10 +446,10 @@ export type GraphQLResolversTypes = {
     Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
     DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
     ExternalLink: ResolverTypeWrapper<ExternalLink>;
-    ID: ResolverTypeWrapper<Scalars['ID']>;
     Int: ResolverTypeWrapper<Scalars['Int']>;
     JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
-    Life: ResolverTypeWrapper<GraphQLLife>;
+    Life: ResolverTypeWrapper<Life>;
+    LifeRequest: GraphQLLifeRequest;
     MessageNotice: ResolverTypeWrapper<GraphQLMessageNotice>;
     Mutation: ResolverTypeWrapper<RootDocument>;
     ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
@@ -483,10 +489,10 @@ export type GraphQLResolversParentTypes = {
     Boolean: Scalars['Boolean'];
     DateTime: Scalars['DateTime'];
     ExternalLink: ExternalLink;
-    ID: Scalars['ID'];
     Int: Scalars['Int'];
     JSONObject: Scalars['JSONObject'];
-    Life: GraphQLLife;
+    Life: Life;
+    LifeRequest: GraphQLLifeRequest;
     MessageNotice: GraphQLMessageNotice;
     Mutation: RootDocument;
     ObjectID: Scalars['ObjectID'];
@@ -584,11 +590,12 @@ export type GraphQLLifeResolvers<
     ContextType = Context,
     ParentType extends GraphQLResolversParentTypes['Life'] = GraphQLResolversParentTypes['Life']
 > = {
-    _id?: Resolver<GraphQLResolversTypes['ID'], ParentType, ContextType>;
     birthday?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
     description?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
     firstName?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
-    hobbies?: Resolver<Array<Maybe<GraphQLResolversTypes['String']>>, ParentType, ContextType>;
+    fullName?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
+    hobbies?: Resolver<Array<GraphQLResolversTypes['String']>, ParentType, ContextType>;
+    id?: Resolver<GraphQLResolversTypes['ObjectID'], ParentType, ContextType>;
     lastName?: Resolver<GraphQLResolversTypes['String'], ParentType, ContextType>;
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -658,7 +665,7 @@ export type GraphQLMutationResolvers<
         GraphQLResolversTypes['Life'],
         ParentType,
         ContextType,
-        RequireFields<GraphQLMutationCreateLifeArgs, 'birthday' | 'description' | 'firstname' | 'lastname' | 'title'>
+        RequireFields<GraphQLMutationCreateLifeArgs, 'life'>
     >;
     disableAuthenticator?: Resolver<GraphQLResolversTypes['User'], ParentType, ContextType>;
     enableAuthenticator?: Resolver<
@@ -725,7 +732,7 @@ export type GraphQLQueryResolvers<
     >;
     generateAuthenticatorSetup?: Resolver<GraphQLResolversTypes['AuthenticatorSetup'], ParentType, ContextType>;
     getLife?: Resolver<
-        GraphQLResolversTypes['Life'],
+        Maybe<GraphQLResolversTypes['Life']>,
         ParentType,
         ContextType,
         RequireFields<GraphQLQueryGetLifeArgs, 'id'>
@@ -736,7 +743,7 @@ export type GraphQLQueryResolvers<
         ContextType,
         RequireFields<GraphQLQueryGetWebauthnKeysArgs, 'username'>
     >;
-    listLives?: Resolver<Array<Maybe<GraphQLResolversTypes['Life']>>, ParentType, ContextType>;
+    listLives?: Resolver<Array<GraphQLResolversTypes['Life']>, ParentType, ContextType>;
     listUsers?: Resolver<
         GraphQLResolversTypes['PaginatedUsers'],
         ParentType,
