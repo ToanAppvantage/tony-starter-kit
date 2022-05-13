@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card } from 'antd';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import BasicLayout from '../../../layouts/BasicLayout';
 import { useGetLifeQuery } from '../../../api';
 
 const DetailLifePage = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const { data, loading, error } = useGetLifeQuery({ variables: { id } });
 
     if(error) {
-        navigate('/404');
-        return;
+        return <p>Life not found! Create one</p>
     }
     
     if(loading) {
@@ -26,7 +24,7 @@ const DetailLifePage = () => {
             <Card size="small" style={{ width: 300 }}>
                     <p>{firstName}</p>
                     <p>{lastName}</p>
-                    <p>{new Date(birthday * 1).toLocaleDateString()}</p>
+                    <p>{new Date(birthday).toLocaleDateString()}</p>
                     <p>{description}</p>
             </Card>
         </BasicLayout>

@@ -10,12 +10,11 @@ import NotFoundPage from '../pages/public/NotFoundPage';
 const PublicRouter = () => (
     <Routes>
         <Route element={<HomePage />} path="" />
-        <Route element={<LifePage />} path="/life" />
-        <Route element={<CreateLifePage />} path="/create-life" />
-        <Route element={<DetailLifePage />} path="/detail-life/:id" />
+        <Route element={<LifePage />} path="life" />
+        <Route element={<CreateLifePage />} path="create-life" />
+        <Route element={<DetailLifePage />} path="detail-life/:id" />
         <Route element={<DummyErrorPage />} path="dummyError" />
         <Route element={<ErrorPage />} path="500" />
-        <Route element={<NotFoundPage />} path="404" />
         <Route element={<NotFoundPage />} path="*" />
     </Routes>
 );

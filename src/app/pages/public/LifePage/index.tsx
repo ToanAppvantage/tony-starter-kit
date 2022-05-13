@@ -1,39 +1,37 @@
 import { Table, Button, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import BasicLayout from '../../../layouts/BasicLayout';
 import { useGetListLivesQuery } from '../../../api';
+import { useMemo } from 'react';
 
 const LifePage = () => {
     const navigate = useNavigate();
+
+    const { t } = useTranslation(['life'])
 
     const { data, loading } = useGetListLivesQuery();
 
     const lives = data?.lives;
 
-    const columns = [
+    const columns = useMemo(() => [
         {
-            title: 'First Name',
-            dataIndex: 'firstName',
-            key: 'firstName',
+            title: t('fullName'),
+            dataIndex: 'fullName',
+            key: 'fullName',
         },
         {
-            title: 'Last Name',
-            dataIndex: 'lastName',
-            key: 'lastName',
-        },
-        {
-            title: 'Birthday',
+            title: t('birthday'),
             dataIndex: 'birthday',
-            key: 'birthday',
-            render: birthday => <>{new Date(birthday * 1).toLocaleDateString()}</>,
+            key: 'birthday'
         },
         {
-            title: 'Description',
+            title: t('description'),
             dataIndex: 'description',
             key: 'description',
         },
         {
-            title: 'Hobbies',
+            title: t('hobbies'),
             dataIndex: 'hobbies',
             key: 'hobbies',
             render: hobbies => hobbies.map(tag => <p>{tag.toUpperCase()}</p>),
@@ -48,7 +46,7 @@ const LifePage = () => {
               </Space>
             ),
           },
-    ];
+    ], [])
 
     return (
         <BasicLayout>
@@ -57,7 +55,7 @@ const LifePage = () => {
             </>
             <Table
                 dataSource={lives}
-                rowKey="_id"
+                rowKey="id"
                 loading={loading}
                 columns={columns}
             />

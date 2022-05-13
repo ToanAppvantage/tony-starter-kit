@@ -1,0 +1,10 @@
+{
+  "firsName": "First Name",
+  "lastName": "Last Name",
+  "fullName": "Name",
+  "title": "Title",
+  "hobbies": "Hobbies",
+  "description": "Description",
+  "birthday": "Birthday",
+  "createLife": "Create a Life!"
+}
