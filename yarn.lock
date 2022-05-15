@@ -33,16 +33,16 @@
     classnames "^2.2.6"
     rc-util "^5.9.4"
 
-"@ant-design/pro-layout@^6.32.7":
-  version "6.35.0"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-6.35.0.tgz#ef0708d7df2ff675d3f6232dbc0aad0550d3b13c"
-  integrity sha512-hkj9VlBN5ONJPWQQAkecZKx0OWmJ2Ef/3k4ibrEh38p0E172/BSOWFt2/Y53Mjlgc+UVYJw/WptADN6pPTM+nA==
+"@ant-design/pro-layout@^6.38.2":
+  version "6.38.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-layout/-/pro-layout-6.38.2.tgz#c99dc6f052e5147ffd13b7450454ce0679c7a508"
+  integrity sha512-HyxDuqV+JsagzSXYwduGvjPo0sfTrUHwgSSSa5DOhP5pUyqFEVq+oBMom1tDzoN19eTdY3NNFTKhnc6HhHdeqQ==
   dependencies:
     "@ant-design/icons" "^4.0.0"
-    "@ant-design/pro-provider" "1.6.3"
-    "@ant-design/pro-utils" "1.39.1"
+    "@ant-design/pro-provider" "1.6.5"
+    "@ant-design/pro-utils" "1.41.2"
     "@babel/runtime" "^7.16.3"
-    "@umijs/route-utils" "^2.0.1"
+    "@umijs/route-utils" "^2.1.0"
     "@umijs/ssr-darkreader" "^4.9.44"
     "@umijs/use-params" "^1.0.9"
     classnames "^2.2.6"
@@ -57,22 +57,22 @@
     use-media-antd-query "^1.0.6"
     warning "^4.0.3"
 
-"@ant-design/pro-provider@1.6.3":
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-provider/-/pro-provider-1.6.3.tgz#d6932ee2489cca387634e32f53bcc6101c31785c"
-  integrity sha512-GyjN5oTUZVylf6Fy3TJfuvs/u8TmeWoqFZ5AKZLvWsdNKN+lPsYXmEYPjutyCtq/ogZkkx6drnuGqAc5E7lb4Q==
+"@ant-design/pro-provider@1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-provider/-/pro-provider-1.6.5.tgz#e30af6eec4602bd33b3cec894e918ea347f266ee"
+  integrity sha512-83hy+q5vCQLRT7QY/3Wo4YL6eAWWi+Svqc7B7Mxw73WT7yPqzhOaRqLyyytPtQrSCT5ldJsqtfWgJBtWIkoNYw==
   dependencies:
     "@babel/runtime" "^7.16.3"
     rc-util "^5.0.1"
     swr "^1.2.0"
 
-"@ant-design/pro-utils@1.39.1":
-  version "1.39.1"
-  resolved "https://registry.yarnpkg.com/@ant-design/pro-utils/-/pro-utils-1.39.1.tgz#e8bb2f29eb8ef39ba17940b9a3a0703421db99fe"
-  integrity sha512-DC6KG/DQPHt2yydaZwwxZz9s1+sqlynRpmLHMhi2tlwpX8Os+ePeNNODisWHXYKf74PdoQAkHu7Aq0E3Oo4W0Q==
+"@ant-design/pro-utils@1.41.2":
+  version "1.41.2"
+  resolved "https://registry.yarnpkg.com/@ant-design/pro-utils/-/pro-utils-1.41.2.tgz#a0c76c7a1201d26e385e7b6b56fbf708306bcd4a"
+  integrity sha512-wVDMwFrLVP0Ng7yDUGrZqot0zCdN1wtpVtGdF6KTZzjMwZ5glWBQWWZ2oFNFqhgRZ9QlojkNWISQl4NnDS/4LA==
   dependencies:
     "@ant-design/icons" "^4.3.0"
-    "@ant-design/pro-provider" "1.6.3"
+    "@ant-design/pro-provider" "1.6.5"
     "@babel/runtime" "^7.16.3"
     classnames "^2.2.6"
     moment "^2.27.0"
@@ -3864,10 +3864,10 @@
     "@typescript-eslint/types" "5.21.0"
     eslint-visitor-keys "^3.0.0"
 
-"@umijs/route-utils@^2.0.1":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@umijs/route-utils/-/route-utils-2.0.5.tgz#5d4c96b444ae5a1eb29cab25300e3774689d02f7"
-  integrity sha512-HSuQebvOmupsWvzl6P2ZRH5cFOs+Wla3wlnKIG1n1bDXnAYuJ5gHpA0uAf0AZIP4wIL5xsxOqlgYqAoOuOSuKw==
+"@umijs/route-utils@^2.1.0":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@umijs/route-utils/-/route-utils-2.1.1.tgz#85d19351f888f105ce348aecfdc1234e13a93220"
+  integrity sha512-N2ftgkqDEPBau1WyAxJfTQOs78OAVJY/Grl90fDo6ui75Eww563FhWcTrribS8sJS33mv9gtSlBLJ3F9WPLVog==
   dependencies:
     "@qixian.cs/path-to-regexp" "^6.1.0"
     fast-deep-equal "^3.1.3"
